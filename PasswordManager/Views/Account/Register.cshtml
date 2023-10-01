@@ -1,0 +1,92 @@
+﻿@model PasswordManager.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager </title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/Content/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h3>Yeni bir hesap oluşturun.</h3>
+                            <p class="mb-4">Parolaların, hesapların ve notların tek bir yerde</p>
+                        </div>
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group first">
+                                <label>Email</label>
+                                <input type="email" name="Email" class="form-control"/>
+                            </div>
+                            <div class="form-group last mb-4">
+                                @Html.LabelFor(m => m.Password)
+                                <input type="password" name="Password" class="form-control"/>
+                            </div>
+                            <div class="form-group last mb-4">
+                                @Html.LabelFor(m => m.ConfirmPassword)
+                                <input type="password" name="ConfirmPassword" class="form-control"/>
+                            </div>
+
+                            <input type="submit" value="Kayıt Ol" class="btn btn-block btn-primary">
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/popper")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/login")
+@Scripts.Render("~/bundles/main")
+
+<script type="text/javascript">
+        function test() {
+            createPasswordRequest();
+        }
+        
+    </script>
+</body>
+</html>

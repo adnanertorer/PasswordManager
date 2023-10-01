@@ -1,0 +1,205 @@
+﻿@model IList<PasswordManager.Domain.EntityResources.UserAccountEntity>
+@{
+    ViewBag.Title = "Parolalarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row m-bt-15">
+    <div class="col-lg-10">
+        @using (Html.BeginForm("Index", "MyPasswords", FormMethod.Post, new { role = "form", @class = "form-inline" }))
+        {
+            <div class="form-group">
+                <select name="SelectedCategory" id="SelectedCategory" class="form-control">
+                    <option value="0">Seçiniz</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="SearchValue"></label>
+                <input type="search" class="form-control" name="SearchValue" id="SearchValue" placeholder="Hesap adı, kullanıcı adı vb." />
+            </div>
+            <button type="submit" class="btn btn-default">Ara</button>
+        }
+    </div>
+    <div class="col-lg-2" style="text-align: right;">
+        <i onclick="openAddAccountModal()" style="text-align: right;font-size: 20px; margin-top:12px;"
+           class="fa fa-plus" aria-hidden="true"></i>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 p-5">
+            
+            <div class="card cardCustom">
+                
+                <h5>@item.Categories.CategoryName <i onclick="getDeleteById(@item.Id)" class="fa fa-trash deleteIcon" aria-hidden="true"></i></h5>
+                <div class="card-body">
+                    <h5 class="card-title">@item.AccountTitle</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.AccountUrl</h6>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" name="username" id="@item.Id-username" class="form-control" value="@item.Username" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="@item.Id-password" class="form-control" value="@item.Password" />
+                            <input type="checkbox" id="@item.Id-showPass" style="margin-top:5px;" onclick="showHidePassword('@item.Id-password')">&nbsp; Göster/Gizle
+                        </div>
+                    </form>
+                    <a href="@item.AccountUrl" target="_blank" class="card-link">Bağlantıyı Aç</a>&nbsp;
+                    <a onclick="openEditAccountModal(@item.Id)" style="float:right;" class="card-link">Düzenle</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<div class="modal fade" id="addPasswordModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPasswordModalLabel">Hesap Ekle</h5>
+                <button type="button" class="close" onclick="closeModal('addPasswordModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addAccountForm">
+                    <div class="form-group">
+                        <label for="accountTitle">Kayıt Adı</label>
+                        <input type="text" name="AccountTitle" id="accountTitle" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <label for="categoryId">Kategori</label>
+                                <select name="CategoryId" id="categoryId" class="form-control">
+                                    <option value="0">Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <i onclick="openCategoryModal()" style="margin-top: 35px;font-size: 20px;" class="fa fa-plus" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountUrl">Kayıt Adresi(url)</label>
+                        <input type="text" name="AccountUrl" id="accountUrl" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName">Kullanıcı Adı/Email</label>
+                        <input type="text" name="Username" id="userName" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-8">
+                            <label for="password">Parola</label>
+                            <input type="password" name="Password" id="password" class="form-control" />
+                            <div class="inputInfo"></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <i onclick="openPasswordModal()" style="margin-top: 35px;font-size: 20px;" class="fa fa-lock" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('addPasswordModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="addAccount()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPasswordModal">Hesap Ekle</h5>
+                <button type="button" class="close" onclick="closeModal('editPasswordModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateAccountForm">
+                    <div class="form-group">
+                        <label for="accountTitle">Kayıt Adı</label>
+                        <input type="text" name="EditAccountTitle" id="editAccountTitle" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="editAccountId" />
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <label for="categoryId">Kategori</label>
+                                <select name="EditCategoryId" id="editCategoryId" class="form-control">
+                                    <option value="0">Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <i onclick="openCategoryModal()" style="margin-top: 35px;font-size: 20px;" class="fa fa-plus" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountUrl">Kayıt Adresi(url)</label>
+                        <input type="text" name="EditAccountUrl" id="editAccountUrl" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName">Kullanıcı Adı/Email</label>
+                        <input type="text" name="EditUsername" id="editUserName" class="form-control" />
+                        <div class="inputInfo"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-8">
+                            <label for="password">Parola</label>
+                            <input type="password" name="EditPassword" id="editPassword" class="form-control" />
+                            <div class="inputInfo"></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <i onclick="openModal('createPasswordModal')" style="margin-top: 35px;font-size: 20px;" class="fa fa-lock" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('editPasswordModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="updateAccount()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModalLabel">Kategori Ekle</h5>
+                <button type="button" class="close" onclick="closeModal('addCategoryModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="categoryName">Kategori</label>
+                        <input type="text" name="categoryName" id="categoryName" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('addCategoryModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="addCategory()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/Application/MyAccount/MyAccount.js"></script>
+}

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Parola Yöneticisi</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/dashboard/img/favicon.ico">
+    @Styles.Render("~/Content/dashboard")
+    <script src="~/Content/dashboard/js/vendor/modernizr-2.8.3.min.js"></script>
+
+</head>
+<body>
+    @Html.Partial("_Sidebar")
+    <div class="all-content-wrapper">
+        @Html.Partial("_Header")
+        <div class="container-fluid">
+            <div class="row mg-all-10">
+                @RenderBody()
+            </div>
+        </div>
+        <div id="snackbar"></div>
+        @Html.Partial("_PasswordCreatorModal")
+    </div>
+
+    @Scripts.Render("~/bundles/dashboard")
+    <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/main.js?v=2"></script>
+    <script type="text/javascript" src="~/Scripts/Application/PasswordCreator/PasswordCreator.js?v=2"></script>
+    @RenderSection("scripts", required: false)
+    
+</body>
+</html>

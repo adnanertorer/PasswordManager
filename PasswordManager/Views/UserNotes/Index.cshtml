@@ -1,0 +1,100 @@
+﻿@model IList<PasswordManager.Domain.EntityResources.UserNotesEntity>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link href="~/Content/dashboard/css/postit/postit.css" rel="stylesheet" />
+<div class="row m-bt-15">
+    <div class="col-lg-10">
+        @using (Html.BeginForm("Index", "MyPasswords", FormMethod.Post, new { role = "form", @class = "form-inline" }))
+        {
+            <div class="form-group">
+                <label for="SearchValue"></label>
+                <input type="search" class="form-control" name="SearchValue" id="SearchValue" placeholder="Not başlığı, içeriği vb." />
+            </div>
+            <button type="submit" class="btn btn-default">Ara</button>
+        }
+    </div>
+    <div class="col-lg-2" style="text-align: right;">
+        <i onclick="openNoteModal()" style="text-align: right;font-size: 20px; margin-top:12px;"
+           class="fa fa-plus" aria-hidden="true"></i>
+    </div>
+</div>
+
+<div class="row" id="myNotes">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li><div class="deleteDiv"><i onclick="getDeleteById(@item.Id)" class="fa fa-trash deleteIcon" aria-hidden="true"></i></div>
+                <a onclick="openEditNoteModal(@item.Id)">
+                    <h2>@item.NoteTitle</h2>
+                    <p>@item.NoteText</p>
+                </a>
+            </li>
+        }
+    </ul>
+
+</div>
+
+<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNoteModalLabel">Not Ekle</h5>
+                <button type="button" class="close" onclick="closeModal('addNoteModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="noteForm">
+                    <div class="form-group">
+                        <label for="title">Başlık</label>
+                        <input type="text" name="title" id="title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control"
+                                  id="noteText" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('addNoteModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="addNote()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog" aria-labelledby="editNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editNoteModal">Not Detay</h5>
+                <button type="button" class="close" onclick="closeModal('editNoteModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editNoteForm">
+                    <input type="hidden" name="editId" id="editId" />
+                    <div class="form-group">
+                        <label for="title">Başlık</label>
+                        <input type="text" name="editTitle" id="editTitle" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="editNoteText" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('editNoteModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="updateNote()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/Application/UserNotes/UserNotes.js"></script>
+}

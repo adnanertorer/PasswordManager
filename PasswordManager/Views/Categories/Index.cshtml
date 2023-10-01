@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Kategoriler</h4>
+
+<p>
+   <a data-toggle="modal" data-target="#addModal">Yeni Ekle</a>
+</p>
+<table class="table" id="categoryTable">
+    <thead>
+        <tr>
+            <th>Kategori</th>
+            <th>Oluşturma Zamanı</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel"></h5>
+                <button type="button" class="close" onclick="closeModal('editModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="categoryId" />
+                    <div class="form-group">
+                        <label for="categoryName">Kategori</label>
+                        <input type="text" name="categoryName" id="categoryName" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('editModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="update()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel"></h5>
+                <button type="button" class="close" onclick="closeModal('addModal')" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="addCategoryName">Kategori</label>
+                        <input type="text" name="addCategoryName" id="addCategoryName" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal('addModal')">Vazgeç</button>
+                <button type="button" class="btn btn-primary" onclick="add()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/Application/Category/Category.js?v=1"></script>
+}
