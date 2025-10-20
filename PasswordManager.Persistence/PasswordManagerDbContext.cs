@@ -19,10 +19,10 @@ public class PasswordManagerDbContext : DbContext
     {
     }
 
-    DbSet<User> Users { get; set; }
-    DbSet<Category> Categories { get; set; }
-    DbSet<UserAccount> UsersAccount { get; set; }
-    DbSet<UserNote> UserNotes { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<UserAccount> UsersAccounts { get; set; }
+    public DbSet<UserNote> UserNotes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
