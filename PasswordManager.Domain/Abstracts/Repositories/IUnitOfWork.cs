@@ -2,6 +2,11 @@
 
 public interface IUnitOfWork
 {
+    ICategoryRepository CategoryRepository { get; }
+    IUserAccountRepository UserAccountRepository { get; }
+    IUserNoteRepository UserNoteRepository { get; }
+
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     Task BeginTransactionAsync(CancellationToken cancellationToken);
